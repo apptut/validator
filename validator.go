@@ -1,7 +1,7 @@
 package validator
 
 import (
-	"abacus/core/components/validator/rules"
+	"github.com/apptut/validator/rules"
 	"strings"
 	"reflect"
 	"errors"
