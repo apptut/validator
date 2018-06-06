@@ -146,7 +146,7 @@ func Url(value []string, _ string) bool {
  * 仅支持大陆11位手机号，不支持座机号码
  */
 func Mobile(value []string, _ string) bool{
-	pattern := "^1[3|5|7|8|9][0-9]{9}$"
+	pattern := "^1[3|5|6|7|8|9][0-9]{9}$"
 	if m, _ := regexp.MatchString(pattern, value[0]); !m {
 		return false
 	}
