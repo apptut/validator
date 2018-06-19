@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"unicode"
 	"net/url"
+	"strings"
 )
 
 /**
@@ -151,6 +152,23 @@ func Mobile(value []string, _ string) bool{
 		return false
 	}
 	return true
+}
+
+/**
+ * 判断字符串是否是数组中的某一项
+ */
+func In(value []string, arr string) bool {
+	container := strings.Split(arr, ",")
+	if len(container) == 0 {
+		return false
+	}
+	current := value[0]
+	for _, item := range container {
+		if current == item {
+			return true
+		}
+	}
+	return false
 }
 
 

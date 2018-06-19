@@ -19,6 +19,7 @@ var validateMap = map[string]interface{}{
 	"Email":    rules.Email,
 	"Url":      rules.Url,
 	"Mobile":   rules.Mobile,
+	"In":       rules.In,
 }
 
 // 单个验证字段错误提示
