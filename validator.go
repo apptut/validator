@@ -48,7 +48,7 @@ type Validator struct {
  */
 func New(data map[string][]string, rules interface{}, args ...map[string]string) (*Validator, error) {
 	message := make(map[string]string)
-	if len(message) > 0 {
+	if len(args) > 0 {
 		message = args[0]
 	}
 	fmtRules := formatRules(rules)
