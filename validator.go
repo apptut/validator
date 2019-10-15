@@ -98,8 +98,11 @@ func (this *Validator) run() (*Validator, error) {
 		err := this.ValidErrors[0]
 		val, ok := err.Errors["def"]
 		if !ok {
-			val = "missing valid error"
+			for _, item := range err.Errors {
+				return this, errors.New(item)
+			}
 		}
+
 		return this, errors.New(val)
 	}
 
