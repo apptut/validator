@@ -2,9 +2,9 @@ package validator
 
 import (
 	"errors"
+	"github.com/apptut/validator/rules"
 	"reflect"
 	"strings"
-	"validator/rules"
 )
 
 // 内置验证器
