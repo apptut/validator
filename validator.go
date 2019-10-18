@@ -9,7 +9,7 @@ import (
 
 // 内置验证器
 var validateMap = map[string]interface{}{
-	"Required": rules.Email,
+	"Required": rules.Required,
 	"Min":      rules.Min,
 	"Max":      rules.Max,
 	"Regex":    rules.Regex,
