@@ -1,15 +1,15 @@
 package validator
 
 import (
-	"github.com/apptut/validator/rules"
-	"strings"
-	"reflect"
 	"errors"
+	"reflect"
+	"strings"
+	"validator/rules"
 )
 
 // 内置验证器
 var validateMap = map[string]interface{}{
-	"Required": rules.Required,
+	"Required": rules.Email,
 	"Min":      rules.Min,
 	"Max":      rules.Max,
 	"Regex":    rules.Regex,
@@ -20,6 +20,10 @@ var validateMap = map[string]interface{}{
 	"Url":      rules.Url,
 	"Mobile":   rules.Mobile,
 	"In":       rules.In,
+	"Lt":       rules.Lt,
+	"Lte":      rules.Lte,
+	"Gt":       rules.Gt,
+	"Gte":      rules.Gte,
 }
 
 // 单个验证字段错误提示
@@ -37,7 +41,6 @@ type Validator struct {
 
 	ValidErrors []ValidError // 验证错误
 }
-
 
 /**
  * 不带自定义错误验证
@@ -63,6 +66,7 @@ func New(data map[string][]string, rules interface{}, args ...map[string]string)
 		return &validator, errors.New(val)
 	}
 	validator.parseMessage(message)
+
 	return validator.run()
 }
 

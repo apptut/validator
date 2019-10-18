@@ -1,12 +1,12 @@
 package rules
 
 import (
-	"regexp"
-	"unicode/utf8"
-	"strconv"
-	"unicode"
 	"net/url"
+	"regexp"
+	"strconv"
 	"strings"
+	"unicode"
+	"unicode/utf8"
 )
 
 /**
@@ -29,13 +29,12 @@ func Required(value []string, _ string) bool {
  * @param param 自定义参数
  * @return bool
  */
-func Regex(value []string, pattern string) bool{
+func Regex(value []string, pattern string) bool {
 	if m, _ := regexp.MatchString(pattern, value[0]); !m {
 		return false
 	}
 	return true
 }
-
 
 /**
  * 字符串最大长度判断， 包括最大值本身
@@ -44,7 +43,7 @@ func Regex(value []string, pattern string) bool{
  * @param param 自定义参数
  * @return bool
  */
-func Max(value []string, param string) bool{
+func Max(value []string, param string) bool {
 	maxInt, err := strconv.Atoi(param)
 	if err != nil {
 		return false
@@ -55,7 +54,6 @@ func Max(value []string, param string) bool{
 	return valueLen <= maxInt
 }
 
-
 /**
  * 字符串最小长度判断， 包括最小值
  *
@@ -63,7 +61,7 @@ func Max(value []string, param string) bool{
  * @param param 自定义参数
  * @return bool
  */
-func Min(value []string, param string) bool{
+func Min(value []string, param string) bool {
 	minInt, err := strconv.Atoi(param)
 	if err != nil {
 		return false
@@ -73,7 +71,6 @@ func Min(value []string, param string) bool{
 	return valueLen >= minInt
 }
 
-
 /**
  * 判断传入职是否是整数
  *
@@ -81,15 +78,61 @@ func Min(value []string, param string) bool{
  * @param param 自定义参数
  * @return bool
  */
-func Int(value []string, _ string) bool{
-	if len(value) <= 0 || len(value[0]) <= 0 {
+func Int(value []string, _ string) bool {
+	_, ok := checkInt(value)
+	return ok
+}
+
+// int less than
+func Lt(value []string, max string) bool {
+	return checkFormat(value, max, "<")
+}
+
+func Lte(value []string, max string) bool {
+	return checkFormat(value, max, "<=")
+}
+
+func Gt(value []string, max string) bool {
+	return checkFormat(value, max, ">")
+}
+
+func Gte(value []string, max string) bool {
+	return checkFormat(value, max, ">=")
+}
+
+func checkFormat(value []string, max string, symbol string) bool {
+	val, ok := checkInt(value)
+	if !ok {
 		return false
 	}
-	_, err := strconv.Atoi(value[0])
+
+	maxInt, err := strconv.Atoi(max)
 	if err != nil {
 		return false
 	}
-	return true
+
+	if symbol == "<" {
+		return val < maxInt
+	} else if symbol == "<=" {
+		return val <= maxInt
+	} else if symbol == ">" {
+		return val > maxInt
+	} else if symbol == ">=" {
+		return val >= maxInt
+	} else {
+		return false
+	}
+}
+
+func checkInt(value []string) (int, bool) {
+	if len(value) <= 0 || len(value[0]) <= 0 {
+		return 0, false
+	}
+	val, err := strconv.Atoi(value[0])
+	if err != nil {
+		return 0, false
+	}
+	return val, true
 }
 
 /**
@@ -99,7 +142,7 @@ func Int(value []string, _ string) bool{
  * @param param 自定义参数
  * @return bool
  */
-func Numeric(value []string, _ string) bool{
+func Numeric(value []string, _ string) bool {
 	if len(value) <= 0 || len(value[0]) <= 0 {
 		return false
 	}
@@ -114,23 +157,20 @@ func Numeric(value []string, _ string) bool{
 /**
  * 可选项不需要任何验证
  */
-func Nullable(value []string, _ string) bool{
+func Nullable(value []string, _ string) bool {
 	return true
 }
-
-
 
 /**
  * 验证邮箱地址是否正确
  */
-func Email(value []string, _ string) bool{
+func Email(value []string, _ string) bool {
 	pattern := "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
 	if m, _ := regexp.MatchString(pattern, value[0]); !m {
 		return false
 	}
 	return true
 }
-
 
 /**
  * 检测当前数据是否是有效Url地址
@@ -146,7 +186,7 @@ func Url(value []string, _ string) bool {
  * 检测当前数据是否是有效手机号码
  * 仅支持大陆11位手机号，不支持座机号码
  */
-func Mobile(value []string, _ string) bool{
+func Mobile(value []string, _ string) bool {
 	pattern := "^1[3|5|6|7|8|9][0-9]{9}$"
 	if m, _ := regexp.MatchString(pattern, value[0]); !m {
 		return false
@@ -170,7 +210,3 @@ func In(value []string, arr string) bool {
 	}
 	return false
 }
-
-
-
-
