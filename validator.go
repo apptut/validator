@@ -233,8 +233,12 @@ func (this *Validator) existError(field string) int {
  */
 func (this *Validator) isVerifiable(key string, rules []string) bool {
 	rule, ok := this.data[key]
-	if inArray(rules, "nullable") && (!ok || len(rule) <= 0) {
-		return false
+	if inArray(rules, "nullable") {
+		if !ok {
+			return false
+		} else if rule != nil && len(rule) <= 0 {
+			return false
+		}
 	}
 	return true;
 }
