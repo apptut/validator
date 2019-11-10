@@ -236,11 +236,20 @@ func (this *Validator) isVerifiable(key string, rules []string) bool {
 	if inArray(rules, "nullable") {
 		if !ok {
 			return false
-		} else if rule != nil && len(rule) <= 0 {
+		} else if rule != nil {
+			for _, ruleItem := range rule {
+
+				// 如果发现其中某一项值不为空，则需要验证
+				if len(ruleItem) > 0 {
+					return true
+				}
+			}
+
 			return false
 		}
 	}
-	return true;
+
+	return true
 }
 
 func (this *Validator) parseMessage(message map[string]string) {
