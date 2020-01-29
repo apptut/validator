@@ -293,7 +293,14 @@ func (this *Validator) addMessage(field string, rule string, message string) {
 		this.customMsg[field] = newMsg
 	} else {
 		for key, item := range newMsg {
-			this.customMsg[field][key] = item
+			_, ok := this.customMsg[field]
+			if ok {
+				this.customMsg[field][key] = item
+			} else {
+				this.customMsg[field] = map[string]string{
+					key: item,
+				}
+			}
 		}
 	}
 
